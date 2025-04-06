@@ -1,0 +1,8 @@
+.book-name {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+.book-name:focus {
+    outline: none;
+}

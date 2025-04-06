@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/authentication.css' %}">
+{% endblock %}
+
+{% block body %}
+    <div style="display: flex; width: 100vw;height: 100vh;flex-direction: row;">
+        <main  class="authentication-main">
+            <form method="POST" action="{% url 'create-account' %}">
+
+                <p class="form-title">Create new library account</p>
+                <p class="form-second-title">Create your account now by entering the required<br>information below.</p>
+
+                <div class="inputs-divs">
+                    <input 
+                        type="text" 
+                        name="username" 
+                        id="username" 
+                        class="authentication-username"
+                        placeholder=" "
+                        style="{% if usernameE %}outline:1px solid red;margin-bottom:30px;{% endif %}" 
+                        onfocus="this.style.outline='{% if usernameE %} 1px solid red; {% endif %}'">
+                    <label for="username" class="username-label">Username</label>
+                    {% if usernameE %}
+                        <p class="errors">{{ usernameE }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="inputs-divs">
+                    <input 
+                        type="text"
+                        name="email"
+                        id="Email"
+                        class="authentication-email"
+                        placeholder=" "
+                        style="{% if emailE %}outline:1px solid red;margin-bottom:30px;{% endif %}"
+                        onfocus="this.style.outline='{% if emailE %} 1px solid red; {% endif %}'">
+                    <label for="Email" class="email-label">Email</label>
+                    {% if emailE %}
+                        <p class="errors">{{ emailE }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="inputs-divs">
+                    <input 
+                        type="password"
+                        name="password"
+                        id="Password"
+                        class="authentication-password"
+                        placeholder=" "
+                        style="{% if passwordE %}outline:1px solid red;margin-bottom:30px;{% endif %}"
+                        onfocus="this.style.outline='{% if passwordE %} 1px solid red; {% endif %}'">
+                    <label for="Password" class="password-label">Password</label>
+                    {% if emailE %}
+                        <p class="errors">{{ passwordE }}</p>
+                    {% endif %}
+                </div>
+        
+                <p class="authentication-login">
+                    - Already have an account? <a href="/books/vault/login">Login</a>
+                </p>
+        
+                {% csrf_token %}
+                <input type="submit" value="Create" class="authentication-submit">
+            </form>
+        </main>
+    
+        <img class="authentication-background-img" src="{% static 'imgs/svg/online-lobrary.svg' %}" alt="online-lobrary.svg">
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/search.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="main-options-blur" id="blurForOptions"></div>
+    <div class="main-options-container" id="optionsContainer">
+        <a class="options-text" href="{% url 'new-author' %}">Add new Auhtor</a>
+        <a class="options-text" href="{% url 'new-publisher' %}">Add new publisher</a>
+        <p class="options-text" id="toggleButton" class="options-text">Theme</p>
+        <a class="options-text" href="{% url 'logout' %}">logout</a>
+    </div>
+    
+    <div class="second-tape">
+        <p class="results">Search: <span style="color: dodgerblue;">{{ search_word }}</span></p>
+        
+        <div class="displays">
+            <img class="displays-img grid" id="displayGrid" src="{% static 'imgs/svg/grid-selected.svg' %}" alt="grid.svg">
+            <img class="displays-img list" id="displayList"  src="{% static 'imgs/svg/list.svg' %}" alt="list.svg">
+        </div>
+    </div>
+    
+    {% if Result %}
+        <div class="books-container grid" id="booksContainer">
+            {% for result in Results %}
+                123
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-books">
+            <p>No Results</p>
+        </div>
+    {% endif %}
+
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock %}

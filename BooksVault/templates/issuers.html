@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/issuers.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    {% if authorsPage %}
+        <p class="page-title">Authors</p>
+    {% else %}
+        <p class="page-title">Publishers</p>
+    {% endif %}
+
+    <div class="second-tape">
+        {% if authorsPage %}
+            <p>Results : {{ AUTHORS.count }}</p>
+        {% else %}
+            <p>Results : {{ PUBLISHERS.count }}</p>
+        {% endif %}
+    </div>
+
+    <ul class="issuer-list">
+        {% if authorsPage %}
+            {% for Author in AUTHORS %}
+                <li><a href="/books/vault/author/{{ Author.id }}">{{ Author.name }}</a></li>
+            {% endfor %}
+        {% else %}
+            {% for Publisher in PUBLISHERS %}
+                <li><a href="/books/vault/publisher/{{ Publisher.id }}">{{ Publisher.name }}</a></li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+{% endblock %}

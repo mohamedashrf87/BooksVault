@@ -1,0 +1,87 @@
+.page-title {
+    color: var(--main-tape-books-vault);
+    font-size: x-large;
+}
+.new-list-form {
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    label {
+        margin-bottom: 3px;
+        color: var(--inputs-labels);
+        font-size: large;
+    }
+    .list-name-input-container{
+        display: flex;
+        input{
+            padding: 10px;
+            background-color: transparent;
+            color: var(--inputs-text);
+            border: none;  border-radius: 5px;
+            outline: 1px solid var(--inputs-ol);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            transition: 0.2s ease;
+        }
+        input:hover {
+            outline: 1px solid var(--inputs-ol-focus);
+        }
+        input:focus{outline: 1px solid var(--inputs-ol-focus);}
+        .new-list-submit {
+            padding: 10px;
+            background-color: var(--buttons-bg);
+            color: var(--buttons-text);
+            border: none;  border-radius: 5px;
+            outline: 1px solid var(--inputs-ol);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: 0.2s ease;
+        }
+        .new-list-submit:hover {
+            background-color: var(--buttons-bg-hover);
+        }
+    }
+    
+}
+
+/* Styles for devices with a width of 768px or more (tablets, desktops) */
+@media (min-width: 768px) {
+    .page-title{
+        margin-left: 40px;
+        margin-top: 50px;
+    }
+    .new-list-form {
+        margin: 40px;
+        .list-name-input-container{
+            flex-direction: row;
+            gap: 40px;
+            input{
+                width: 40vw;
+            }
+            .new-list-submit {
+                width: max-content;
+                padding-left: 20px;  padding-right: 20px;
+            }
+        }
+    }
+}
+/* Styles for devices with a width of less than 768px (mobiles) */
+@media (max-width: 767px) {
+    .page-title{
+        margin: 20px;
+        margin-top: 30px;
+    }
+    .new-list-form {
+        margin: 20px;
+        .list-name-input-container{
+            flex-direction: column;
+            gap: 30px;
+            input{
+                width: 100%;
+            }
+        }
+        .new-list-submit {
+            width: 100%;
+        }
+    }
+}

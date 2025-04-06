@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/new-list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <p class="page-title">Create new list</p>
+
+    <form action="{% url 'new-list' %}" class="new-list-form" method="post">
+        {% csrf_token %}
+
+        <label for="listNameInput">List Name</label>
+        <div class="list-name-input-container">
+            <input type="text" name="list_name" id="listNameInput">
+            <input type="submit" value="Create" class="new-list-submit">
+        </div>
+
+        <input type="text" name="books_ids" id="selectedBooksIDs" style="display: none;">
+    </form>
+
+    <div class="second-tape">
+
+        <p id="SelectedNumber">Selected : <span>0</span></p>
+
+        <div class="displays-of-books">
+            <svg class="displays-icon" id="gridDisplayIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path d="M3.5 3.5H10.5V10.5H3.5V3.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> 
+                    <path d="M3.5 13.5H10.5V20.5H3.5V13.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> 
+                    <path d="M13.5 3.5H20.5V10.5H13.5V3.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M13.5 13.5H20.5V20.5H13.5V13.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </svg>
+            <svg class="displays-icon" id="listDisplayIcon"  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path d="M3.5 20.5L3.5 13.5L20.5 13.5V20.5H3.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M3.5 10.5L3.5 3.5L20.5 3.5V10.5L3.5 10.5Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> 
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <div class="books-container grid" id="booksContainer">
+        {% for Book in Books %}
+            <div class="book-box">
+                <input type="hidden" id="BookID" value="{{ Book.id }}">
+                <img src="{{ Book.image_url }}" alt="{{ Book.image_url }}">
+                <div style="display: flex;flex-direction: column;"> 
+                    <p class="book-name">{{ Book.name }}</p>
+                    <div class="book-details">
+                        <div>
+                            <p>ISBN</p>
+                            <p>category</p>
+                            <p>author</p>
+                            <p>publisher</p>
+                        </div>
+                        <div>
+                            <p>{{ Book.ISBN }}</p>
+                            <p>{{ Book.get_category_display }}</p>
+                            <p>
+                                {% for author in Book.authors.all %}
+                                    {{ author.name }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %} 
+                            </p>
+                            <p>{{ Book.publisher.name }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script src="{% static 'js/new-list.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock %}

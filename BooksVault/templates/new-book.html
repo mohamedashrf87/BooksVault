@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/new-book.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <form action="{% url 'new-book' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <p class="new-book-main-title">Add new book</p>
+        
+        <div class="main-container">
+    
+            <div class="image-input-container">
+                <input type="file" id="imageInput" name="image" accept="image/*,.pdf" style="display: none;">
+                <label for="imageInput" class="image-label" id="imageInputLabel">
+                    <p id="imageInputP">Book Image Upload</p>
+                    <img src="" alt="" style="display:none;" id="imagePreview">
+                </label>
+            </div>
+    
+            <div class="details-inputs-container">
+    
+                <div class="inputs-container">
+                    <label for="bookName">Book Name</label>
+                    <input class="inputs" type="text" id="bookName" name="book_name">
+                </div>
+    
+                <div class="inputs-container">
+                    <label for="ISBN">ISBN</label>
+                    <input class="inputs" type="number" id="ISBN" name="ISBN">
+                </div>
+    
+                <div class="inputs-container">
+                    <label for="Category">Category</label>
+                    <select class="inputs" name="category" id="Category">
+                        {% for code, name in CATEGORIES %}
+                            <option value="{{ code }}">{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+    
+                <div class="inputs-container">
+                    <input type="text" id="authorsValues" name="authors" style="display: none;">
+    
+                    <div class="chosen-authors" id="chosenAuthors">
+                    </div>
+    
+                    <label for="authorsInput">Authors</label>
+                    <input class="inputs" type="text" id="authorsInput">
+    
+                    <div class="authors-list" id="authorsList">
+                        <p class="no-results" id="authorsListNoResults">No results</p>
+                        {% for Author in AUTHORS %}
+                            <p class="authors-names">{{ Author.name }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+    
+                <div class="inputs-container">
+                    <label for="Publisher">Publisher</label>
+                    <select class="inputs" name="publisher" id="Publisher">
+                        {% for Publisher in PUBLISHERS %}
+                            <option value="{{ Publisher.name }}">{{ Publisher.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+            </div>
+    
+        </div>
+    
+        <input class="new-book-submit" type="submit" value="Add">
+    </form>
+
+
+    <script src="{% static 'js/new-book.js' %}"></script>
+{% endblock %}

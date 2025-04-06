@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/authentication.css' %}">
+{% endblock %}
+
+{% block body %}
+    <form method="POST" action="{% url 'login' %}">
+
+        <p class="form-title">Log in to your library account</p>
+        <p class="form-second-title">You can log in using the information you provided<br>during registration.</p>
+        
+        <div class="inputs-divs">
+            <input 
+                type="text"
+                name="email"
+                id="Email"
+                class="authentication-email"
+                placeholder=" "
+                style="{% if emailE %}outline:1px solid red;margin-bottom:30px;{% endif %}"
+                onfocus="this.style.outline='{% if emailE %} 1px solid red; {% endif %}'">
+            <label for="Email" class="email-label">Email</label>
+            {% if emailE %}
+                <p class="errors">{{ emailE }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="inputs-divs">
+            <input 
+                type="password"
+                name="password"
+                id="Password"
+                class="authentication-password"
+                placeholder=" "
+                style="{% if passwordE %}outline:1px solid red;margin-bottom:30px;{% endif %}"
+                onfocus="this.style.outline='{% if passwordE %} 1px solid red; {% endif %}'">
+            <label for="Password" class="password-label">Password</label>
+            {% if emailE %}
+                <p class="errors">{{ passwordE }}</p>
+            {% endif %}
+        </div>
+
+        <p class="authentication-login">
+            - Don't have an account? <a href="/books/vault/create/account">Create one</a>
+        </p>
+
+        {% csrf_token %}
+        <input type="submit" value="Login" class="authentication-submit">
+    </form>
+{% endblock %}

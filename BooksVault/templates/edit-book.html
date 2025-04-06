@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/new-book.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <form action="/books/vault/edit/book/{{ Book.id }}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <p class="new-book-main-title">
+            Edit Book <span style="color: var(--special-text);">"{{ Book.name }}"</span>
+        </p>
+        
+        <div class="main-container">
+    
+            <div class="image-input-container">
+                <input type="file" id="imageInput" name="image" accept="image/*,.pdf" style="display: none;">
+                <label for="imageInput" class="image-label" id="imageInputLabel">
+                    <img src="{{ Book.image_url }}" alt="{{ Book.image_url }}" id="imagePreview">
+                </label>
+            </div>
+    
+            <div class="details-inputs-container">
+    
+                <div class="inputs-container">
+                    <label for="bookName">Book Name</label>
+                    <input class="inputs" type="text" id="bookName" name="book_name" value="{{ Book.name }}">
+                </div>
+    
+                <div class="inputs-container">
+                    <label for="ISBN">ISBN</label>
+                    <input class="inputs" type="number" id="ISBN" name="ISBN" value="{{ Book.ISBN }}">
+                </div>
+    
+                <div class="inputs-container">
+                    <label for="Category">Category</label>
+                    <select class="inputs" name="category" id="Category">
+                        {% for code, name in CATEGORIES %}
+                            <option value="{{ code }}" {% if code == Book.category %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>                                     
+                </div>
+    
+                <div class="inputs-container">
+                    <input type="text" id="authorsValues" name="authors" style="display: none;">
+    
+                    <div class="chosen-authors" id="chosenAuthors">
+                    </div>
+    
+                    <label for="authorsInput">Authors</label>
+                    <input class="inputs" type="text" id="authorsInput">
+    
+                    <div class="authors-list" id="authorsList">
+                        <p class="no-results" id="authorsListNoResults">No results</p>
+                        {% for Author in AUTHORS %}
+                            <p class="authors-names {% if Author in Book.authors.all %}selected-authors{% endif %}">{{ Author.name }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+    
+                <div class="inputs-container">
+                    <label for="Publisher">Publisher</label>
+                    <select class="inputs" name="publisher" id="Publisher">
+                        {% for publisher in PUBLISHERS %}
+                            <option value="{{ publisher.name }}" {% if publisher.name == Book.publisher %}selected{% endif %}>
+                                {{ publisher.name }}
+                            </option>
+                        {% endfor %}
+                    </select>                    
+                </div>
+
+            </div>
+    
+        </div>
+    
+        <input class="new-book-submit" type="submit" value="Save">
+    </form>
+      
+    <script src="{% static 'js/edit-book.js' %}"></script>
+
+{% endblock %}

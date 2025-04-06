@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/issuers.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <p class="page-title">Lists</p>
+
+    <div class="second-tape">
+        <p>Results : {{ LISTS.count }}</p>
+    </div>
+
+    <ul class="issuer-list">
+        {% for List in LISTS %}
+            <li><a href="/books/vault/list/{{ List.id }}">{{ List.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
