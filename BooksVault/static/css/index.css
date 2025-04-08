@@ -18,12 +18,16 @@ body {
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         .search-input:focus{outline: 1px solid var(--inputs-ol-focus);}
-        .search-icon {
+        .search-button{
+            background-color: transparent;
+            border: none;
             position: absolute;
-            width: 25px;  height: auto;
-            right: 7px;  top: 5px;
-            path{
-                stroke: var(--search-title);
+            right: 0px;  top: 5px;
+            .search-icon {
+                width: 25px;  height: auto;
+                path{
+                    stroke: var(--inputs-title);
+                }
             }
         }
     }

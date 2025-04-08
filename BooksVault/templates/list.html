@@ -4,11 +4,38 @@
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/issuer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
 {% block body %}
 
     <p class="page-title">List name : {{ List.name }}</p>
+
+    <svg class="list-options-icon" id="bookOptionsIcon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+        <g id="SVGRepo_iconCarrier">
+            <path d="M0 0h48v48H0z" fill="none">
+            </path>
+            <g id="Shopicon">
+                <circle cx="24" cy="24" r="5"></circle>
+                <circle cx="24" cy="11" r="5"></circle>
+                <circle cx="24" cy="37" r="5"></circle>
+            </g>
+        </g>
+    </svg>
+
+    <div id="bookOptionsContainer" class="options-container">
+        <a class="book-options-a" href="/books/vault/edit/list/{{ List.id }}">Edit</a>
+        <a class="book-options-a delete" href="/books/vault/delete/list/{{ List.id }}">Delete</a>
+    </div>
+
+    <svg class="book-options-exit" id="bookOptionsExit" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <path d="M35.707,16.293c-0.391-0.391-1.023-0.391-1.414,0L26,24.586l-8.293-8.293c-0.391-0.391-1.023-0.391-1.414,0
+          s-0.391,1.023,0,1.414L24.586,26l-8.293,8.293c-0.391,0.391-0.391,1.023,0,1.414C16.488,35.902,16.744,36,17,36
+          s0.512-0.098,0.707-0.293L26,27.414l8.293,8.293C34.488,35.902,34.744,36,35,36s0.512-0.098,0.707-0.293
+          c0.391-0.391,0.391-1.023,0-1.414L27.414,26l8.293-8.293C36.098,17.316,36.098,16.684,35.707,16.293z"/>
+    </svg>
 
     <div class="second-tape">
         <p>Books in the list : {{ List.books.all.count }}</p>
@@ -64,4 +91,5 @@
     </div>
 
     <script src="{% static 'js/index.js' %}"></script>
+    <script src="{% static 'js/book.js' %}"></script>
 {% endblock %}

@@ -23,7 +23,6 @@
 
   newPublisherOpenForm.onclick = function () {
     document.querySelector('#publisherName').value = '';
-    document.querySelector('#Address').value = '';
     blurForOptions.style.display = 'block';
     newPublisherForm.style.display = 'block';
     optionsContainer.style.display = 'none';
@@ -68,12 +67,10 @@
     event.preventDefault();
 
     const publisherName = document.querySelector('#publisherName').value;
-    const Address = document.querySelector('#Address').value;
 
-    if (!publisherName || !Address) {
+    if (!publisherName) {
       alert("Please fill out all fields.");
       document.querySelector('#publisherName').value = '';
-      document.querySelector('#Address').value = '';
       blurForOptions.style.display = 'block';
       newAuthorForm.style.display = 'block';
       optionsContainer.style.display = 'none';
@@ -83,7 +80,7 @@
     fetch('/books/vault/new/publisher', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: publisherName, address: Address }),
+      body: JSON.stringify({ name: publisherName }),
     })
       .then(response => response.json())
       .then(data => {})

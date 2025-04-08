@@ -51,6 +51,7 @@ body{
                 border: none;  border-radius: 5px;
                 outline: 1px solid var(--inputs-ol);
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                font-size: medium;
                 box-sizing: border-box;
                 transition: 0.2s ease;
 
@@ -97,6 +98,7 @@ body{
 
                 .authors-names {
                     margin-right: 7px;
+                    margin-top: 2px;
                     padding: 3px;  padding-left: 7px;  padding-right: 7px;
                     border-radius: 5px;
                     background-color: var(--inputs-text);
@@ -105,6 +107,12 @@ body{
             }
         }
     }
+}
+
+.errors{
+    margin-top: 4px;
+    color: red;
+    font-size: small;
 }
 
 .new-book-submit {

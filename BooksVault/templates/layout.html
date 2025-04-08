@@ -74,6 +74,8 @@
 
             <div class="main-options-container" id="optionsContainer">
 
+                <a class="options-text" href="{% url 'new-book' %}">Add new book</a>
+
                 <p class="options-text" id="newAuthorOpenForm">Add new Auhtor</p>
 
                 <p class="options-text" id="newPublisherOpenForm">Add new publisher</p>
@@ -111,11 +113,6 @@
                 <div class="inputs-container">
                     <label for="publisherName">Publisher Name</label>
                     <input class="inputs" type="text" id="publisherName">
-                </div>
-
-                <div class="inputs-container">
-                    <label for="Address">Address</label>
-                    <input class="inputs" type="url" id="Address">
                 </div>
 
                 <input class="submit-button" type="submit" value="Add">

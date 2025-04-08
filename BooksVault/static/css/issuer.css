@@ -6,6 +6,12 @@
     color: var(--main-tape-books-vault);
     font-size: large;
 }
+.delete-icon {
+    position: absolute;
+    svg {
+        width: 38px;  height: auto;
+    }
+}
 /* Styles for devices with a width of 768px or more (tablets, desktops) */
 @media (min-width: 768px) {
     .page-title{
@@ -16,6 +22,10 @@
         margin-left: 45px;
         margin-top: 20px;
         margin-bottom: 50px;
+        width: 40vw;
+    }
+    .delete-icon {
+        right: 40px;  top: 100px;
     }
 }
 /* Styles for devices with a width of less than 768px (mobiles) */
@@ -29,5 +39,8 @@
         margin: 43px;
         margin-top: 50px;
         margin-bottom: 20px;
+    }
+    .delete-icon {
+        right: 20px;  top: 135px;
     }
 }

@@ -16,31 +16,48 @@
     
             <div class="image-input-container">
                 <input type="file" id="imageInput" name="image" accept="image/*,.pdf" style="display: none;">
-                <label for="imageInput" class="image-label" id="imageInputLabel">
+                <label for="imageInput" class="image-label" id="imageInputLabel" style="{% if imageE %}outline:1px solid red;{% endif %}" onfocus="this.style.outline='{% if imageE %} 1px solid red; {% endif %}'">
+
                     <p id="imageInputP">Book Image Upload</p>
                     <img src="" alt="" style="display:none;" id="imagePreview">
                 </label>
+                {% if imageE %}
+                    <p class="errors">{{ imageE }}</p>
+                {% endif %}
             </div>
     
             <div class="details-inputs-container">
     
                 <div class="inputs-container">
                     <label for="bookName">Book Name</label>
-                    <input class="inputs" type="text" id="bookName" name="book_name">
+                    <input class="inputs" type="text" id="bookName" name="book_name"
+                    style="{% if nameE %}outline:1px solid red;{% endif %}"
+                    onfocus="this.style.outline='{% if nameE %} 1px solid red; {% endif %}'">
+                    {% if nameE %}
+                        <p class="errors">{{ nameE }}</p>
+                    {% endif %}
                 </div>
     
                 <div class="inputs-container">
                     <label for="ISBN">ISBN</label>
-                    <input class="inputs" type="number" id="ISBN" name="ISBN">
+                    <input class="inputs" type="number" id="ISBN" name="ISBN"
+                    style="{% if ISBNE %}outline:1px solid red;{% endif %}"
+                    onfocus="this.style.outline='{% if ISBNE %} 1px solid red; {% endif %}'">
+                    {% if ISBNE %}
+                        <p class="errors">{{ ISBNE }}</p>
+                    {% endif %}
                 </div>
     
                 <div class="inputs-container">
                     <label for="Category">Category</label>
-                    <select class="inputs" name="category" id="Category">
+                    <select class="inputs" name="category" id="Category" style="{% if categoryE %}outline:1px solid red;{% endif %}" onfocus="this.style.outline='{% if categoryE %} 1px solid red; {% endif %}'">
                         {% for code, name in CATEGORIES %}
                             <option value="{{ code }}">{{ name }}</option>
                         {% endfor %}
                     </select>
+                    {% if categoryE %}
+                        <p class="errors">{{ categoryE }}</p>
+                    {% endif %}
                 </div>
     
                 <div class="inputs-container">
@@ -50,7 +67,12 @@
                     </div>
     
                     <label for="authorsInput">Authors</label>
-                    <input class="inputs" type="text" id="authorsInput">
+                    <input class="inputs" type="text" id="authorsInput"
+                    style="{% if authorsE %}outline:1px solid red;{% endif %}"
+                    onfocus="this.style.outline='{% if authorsE %} 1px solid red; {% endif %}'">
+                    {% if authorsE %}
+                        <p class="errors">{{ authorsE }}</p>
+                    {% endif %}
     
                     <div class="authors-list" id="authorsList">
                         <p class="no-results" id="authorsListNoResults">No results</p>
@@ -62,11 +84,15 @@
     
                 <div class="inputs-container">
                     <label for="Publisher">Publisher</label>
-                    <select class="inputs" name="publisher" id="Publisher">
+                    <select class="inputs" name="publisher" id="Publisher" style="{% if publisherE %}outline:1px solid red;{% endif %}" onfocus="this.style.outline='{% if publisherE %} 1px solid red; {% endif %}'">
+
                         {% for Publisher in PUBLISHERS %}
                             <option value="{{ Publisher.name }}">{{ Publisher.name }}</option>
                         {% endfor %}
                     </select>
+                    {% if publisherE %}
+                        <p class="errors">{{ publisherE }}</p>
+                    {% endif %}
                 </div>
 
             </div>

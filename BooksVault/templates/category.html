@@ -2,48 +2,16 @@
 {% load static %}
 
 {% block head %}
+    <link rel="stylesheet" href="{% static 'css/issuers.css' %}">
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/issuer.css' %}">
 {% endblock %}
 
 {% block body %}
 
-    {% if Author %}
-        <p class="page-title">Author : {{ Author.name }}</p>
-
-        <p class="biography">{{ Author.biography }}</p>
-
-        <a class="delete-icon" href="/books/vault/delete/author/{{ Author.id }}">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FF0000">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                    <path d="M10 12V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M14 12V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M4 7H20" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </g>
-            </svg>
-        </a>
-    {% else %}
-        <p class="page-title" style="margin-bottom: 10px;">Publisher : {{ Publisher.name }}</p>
-
-        <a class="delete-icon" href="/books/vault/delete/publisher/{{ Publisher.id }}">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FF0000">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                    <path d="M10 12V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M14 12V17" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M4 7H20" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#FF0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                </g>
-            </svg>
-        </a>
-    {% endif %}
+    <p class="page-title">Category : <span style="color: var(--special-text);">{{ Category }}</span></p>
 
     <div class="second-tape">
-        <p>Books: {{ Books.count }}</p>
+        <p>Results : {{ Books.count }}</p>
 
         <div class="displays-of-books">
             <svg class="displays-icon" id="gridDisplayIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,6 +61,10 @@
                 </div>
             </a>
         {% endfor %}
+
+        {% if Books|length == 0 %}
+            <p style="margin-left: 10px;">No results</p>
+        {% endif %}
     </div>
 
     <script src="{% static 'js/index.js' %}"></script>

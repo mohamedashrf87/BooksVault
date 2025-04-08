@@ -13,7 +13,6 @@ class Authors(models.Model):
 class Publisher(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="publisher", null=True)
     name = models.CharField(max_length=255)
-    address = models.URLField(max_length=255)
     
 class Book(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="books", null=False)

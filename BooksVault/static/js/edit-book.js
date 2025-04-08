@@ -36,6 +36,7 @@ Array.from(authorsSelectedNames).forEach(function(element) {
     authorsList.removeChild(element);
     chosenAuthors.appendChild(element);
     authorsValues.push(element.innerText);
+    authorsValuesInput.value = authorsValues.join(",");
 });
 
 authorsInput.onfocus = function(){
@@ -72,16 +73,12 @@ Array.from(authorsListNames).forEach(function(element) {
                 authorsValues.splice(authorsValues.indexOf(element.innerText), 1);
 
                 authorsValuesInput.value = authorsValues.join(",");
-                console.log("Hidden input:", authorsValuesInput);
-                console.log("Collected authors:", authorsValues);
             } else {
                 authorsList.removeChild(element);
                 chosenAuthors.appendChild(element);
                 authorsValues.push(element.innerText);
 
                 authorsValuesInput.value = authorsValues.join(",");
-                console.log("Hidden input:", authorsValuesInput.value);
-                console.log("Collected authors:", authorsValues);
             }
         } else if (chosenAuthors.contains(element)) {
             chosenAuthors.removeChild(element);
@@ -91,7 +88,6 @@ Array.from(authorsListNames).forEach(function(element) {
         }
         authorsInput.style.paddingLeft = (chosenAuthors.offsetWidth) + 'px';
         authorsInput.value = '';
-
     };
 });
 
