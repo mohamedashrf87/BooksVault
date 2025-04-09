@@ -10,21 +10,22 @@
         <form method="POST" action="{% url 'login' %}" class="authentication-form">
 
             {% csrf_token %}
+            
             <p class="form-title">Log in to your library account</p>
             <p class="form-second-title">You can log in using the information you provided<br>during registration.</p>
             
             <div class="inputs-divs">
-                <label for="Email" class="email-label">Email</label>
+                <label for="username" class="username-label">Username</label>
                 <input 
-                    type="text"
-                    name="email"
-                    id="Email"
-                    class="authentication-email"
+                    type="text" 
+                    name="username" 
+                    id="username"
+                    class="authentication-username"
                     placeholder=" "
-                    style="{% if emailE %}outline:1px solid red;{% endif %}"
-                    onfocus="this.style.outline='{% if emailE %} 1px solid red; {% endif %}'">
-                {% if emailE %}
-                    <p class="errors">{{ emailE }}</p>
+                    style="{% if usernameE %}outline:1px solid red;{% endif %}"
+                    onfocus="this.style.outline='{% if usernameE %} 1px solid red; {% endif %}'">
+                {% if usernameE %}
+                    <p class="errors">{{ usernameE }}</p>
                 {% endif %}
             </div>
             

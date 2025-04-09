@@ -428,15 +428,16 @@ def delete_list(request, ListID):
 def login_view(request):
     logout(request)
     if request.method == "POST":
-        username = request.POST["email"]
+        username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
         
-        if not username:
-            return render(request, "login.html", {"emailE": "This field can't be empty."})
+        if not email:
+            return render(request, "login.html", {"usernameE": "This field can't be empty."})
 
         if not password:
             return render(request, "login.html", {"passwordE": "This field can't be empty."})
+        
+        user = authenticate(request, username=username, password=password)
         
         if not user:
             return render(request, "login.html", {
