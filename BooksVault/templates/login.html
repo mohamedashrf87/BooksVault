@@ -8,6 +8,8 @@
 {% block body %}
     <div class="authentication-form-container">
         <form method="POST" action="{% url 'login' %}" class="authentication-form">
+
+            {% csrf_token %}
             <p class="form-title">Log in to your library account</p>
             <p class="form-second-title">You can log in using the information you provided<br>during registration.</p>
             
@@ -44,8 +46,7 @@
             <p class="authentication-login">
                 - Don't have an account? <a href="/books/vault/create/account">Create one</a>
             </p>
-    
-            {% csrf_token %}
+
             <input type="submit" value="Login" class="authentication-submit">
         </form>
     </div>
