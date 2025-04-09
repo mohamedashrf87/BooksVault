@@ -39,7 +39,7 @@ def category(request, Category):
     CATEGORY_DICT = dict(CATEGORIES)
     category_name = CATEGORY_DICT.get(Category.upper(), "Unknown Category")
 
-    books = Book.objects.filter(category=Category)
+    books = Book.objects.filter(user=request.user ,category=Category)
 
     return render(request, "category.html", {
         "Category":category_name,
