@@ -26,9 +26,10 @@ def search(request):
     search = request.POST.get('search', '')
 
     results = Book.objects.filter(
+        user=request.user
+    ).filter(
         Q(name__icontains=search) | Q(ISBN__icontains=search)
     )
-
     return render(request, "search.html", {
         "search":search,
         "Books": results
@@ -325,7 +326,6 @@ def list(request, ListID):
 
 @login_required(login_url="login")
 def edit_list(request, ListID):
-
     try:
         list  = List.objects.get(user=request.user ,id=ListID)
     except List.DoesNotExist:
@@ -336,8 +336,7 @@ def edit_list(request, ListID):
         if list_name:
             list.name = list_name
 
-
-
+        list.books.clear()
         books_ids = request.POST.get('books_ids')
         if books_ids:
             for book_id in books_ids.split(','):
@@ -347,7 +346,7 @@ def edit_list(request, ListID):
                 except Book.DoesNotExist:
                     pass
 
-        return redirect(f"books/vault/list/{ListID}")
+        return redirect(reverse('list', args=[ListID]))
 
     books = Book.objects.filter(user=request.user).order_by('-added_at')
     return render(request, "edit-list.html", {
@@ -368,7 +367,7 @@ def add_book_to_list(request, BookID):
         list = List.objects.get(user=request.user ,id=list_id)
         list.books.add(book)
 
-        return redirect(f"books/vault/list/{list_id}")
+        return redirect(reverse('list', args=[list_id]))
 
     LISTS  = List.objects.filter(user=request.user)
     return render(request, "add-book-to-list.html", {

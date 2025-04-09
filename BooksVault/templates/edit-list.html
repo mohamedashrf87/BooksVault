@@ -10,7 +10,7 @@
 
     <p class="page-title">Edot list <span style="color: var(--special-text);">"{{ List.name }}"</span></p>
 
-    <form action="/books/vault/edit/list/{{ List.id }}" class="new-list-form" method="post">
+    <form action="{% url 'edit-list' List.id %}" class="new-list-form" method="post">
         {% csrf_token %}
 
         <label for="listNameInput">List Name</label>
