@@ -17,17 +17,16 @@ urlpatterns = [
 
     path("book/<int:BookID>", views.book, name="book"),
     path("edit/book/<int:BookID>", views.edit_book, name="edit-book"),
-    path("add/book/<int:BookID>/to/list", views.book, name="book"),
-
+    path("add/book/<int:BookID>/to/list", views.add_book_to_list, name="add-book-to-list"),
     path("author/<int:AuthorID>", views.author, name="author"),
     path("publisher/<int:PublisherID>", views.publisher, name="publisher"),
     path("list/<int:ListID>", views.list, name="list"),
+    path("edit/list/<int:ListID>", views.edit_list, name="edit-list"),
 
     path("delete/book/<int:BookID>", views.delete_book, name="delete-book"),
     path("delete/author/<int:AuthorID>", views.delete_author, name="delete-author"),
     path("delete/publisher/<int:PublisherID>", views.delete_publisher, name="delete-publisher"),
     path("delete/list/<int:ListID>", views.delete_list, name="delete-list"),
-
     
     path("create/account", views.create_account, name="create-account"),
     path("login", views.login_view, name="login"),

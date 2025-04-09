@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/issuers.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    <p class="page-title">Add <span style="color: var(--special-text);">"{{ Book.name }}"</span> to list</p>
+
+    <div class="second-tape">
+        Select List
+    </div>
+
+    <ul class="issuer-list">
+        {% for List in LISTS %}
+            <li>
+                <form action="/books/vault/add/book/{{ Book.id }}/to/list" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="list_id" value="{{ List.id }}">
+                    <button type="submit"><p>{{ List.name }}</p></button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

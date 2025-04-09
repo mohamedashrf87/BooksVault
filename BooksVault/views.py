@@ -1,25 +1,24 @@
 import json
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import HttpResponse, HttpResponseRedirect, render
+from django.shortcuts import HttpResponse, HttpResponseRedirect, render, redirect
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import User, Authors, Publisher, Book, List
 from .choices import CATEGORIES
-from .forms import UploadFileForm
 import cloudinary.uploader
 
+@login_required(login_url="login")
 def index(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     books = Book.objects.filter(user=request.user).order_by('-added_at')
 
     return render(request, "index.html",{
         "CATEGORIES":CATEGORIES,
         "Books":books,
     })
-    
+
+@login_required(login_url="login")
 def search(request):
     if request.method != "POST":
         return HttpResponse('This method is not allowed', status=400)
@@ -35,10 +34,8 @@ def search(request):
         "Books": results
     })
 
+@login_required(login_url="login")
 def category(request, Category):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     CATEGORY_DICT = dict(CATEGORIES)
     category_name = CATEGORY_DICT.get(Category.upper(), "Unknown Category")
 
@@ -49,38 +46,30 @@ def category(request, Category):
         "Books": books
     })
 
+@login_required(login_url="login")
 def authors(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     AUTHORS  = Authors.objects.filter(user=request.user)
     return render(request, "issuers.html",{
         "authorsPage":True,
         "AUTHORS":AUTHORS,
     })
-    
-def publishers(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
 
+@login_required(login_url="login")
+def publishers(request):
     PUBLISHERS  = Publisher.objects.filter(user=request.user)
     return render(request, "issuers.html",{
         "PUBLISHERS":PUBLISHERS,
     })
 
+@login_required(login_url="login")
 def lists(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-
     LISTS  = List.objects.filter(user=request.user)
     return render(request, "lists.html",{
         "LISTS":LISTS,
     })
-    
+
+@login_required(login_url="login")
 def new_book(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     AUTHORS  = Authors.objects.filter(user=request.user)
     PUBLISHERS = Publisher.objects.filter(user=request.user)
 
@@ -176,6 +165,7 @@ def new_book(request):
         "PUBLISHERS":PUBLISHERS,
     })
     
+@login_required(login_url="login")
 @csrf_exempt
 def new_author(request):
     if request.method != "POST":
@@ -190,6 +180,7 @@ def new_author(request):
     
     return HttpResponse(status=204)
 
+@login_required(login_url="login")
 @csrf_exempt  
 def new_publisher(request):
     if request.method != "POST":
@@ -202,38 +193,39 @@ def new_publisher(request):
     publisher.save()
     
     return HttpResponse(status=204)
-     
+
+@login_required(login_url="login") 
 def new_list(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     if request.method == "POST":
         list_name = request.POST.get('list_name')
-        new_list_obj = List(
-            user=request.user,
-            name=list_name
-        )
+        if not list_name:
+            books = Book.objects.filter(user=request.user).order_by('-added_at')
+            return render(request, "new-list.html", {
+                "Books": books,
+                "error": "List name cannot be empty."
+            })
+
+        new_list_obj = List(user=request.user, name=list_name)
         new_list_obj.save()
 
-        books_ids = request.POST.get('books_ids').split(',')
-        for id in books_ids :
-            try :
-                book = Book.objects.get(id=id)
-                new_list_obj.books.add(book)
-            except Book.DoesNotExist:
-                pass
-        return HttpResponseRedirect(reverse("lists"))
+        books_ids = request.POST.get('books_ids')
+        if books_ids:
+            for book_id in books_ids.split(','):
+                try:
+                    book = Book.objects.get(id=book_id)
+                    new_list_obj.books.add(book)
+                except Book.DoesNotExist:
+                    pass
+
+        return redirect("lists")
 
     books = Book.objects.filter(user=request.user).order_by('-added_at')
-
-    return render(request, "new-list.html",{
-        "Books":books,
+    return render(request, "new-list.html", {
+        "Books": books,
     })
-    
+
+@login_required(login_url="login") 
 def book(request, BookID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     try:
         book = Book.objects.get(user=request.user, id=BookID)
     except Book.DoesNotExist:
@@ -241,10 +233,8 @@ def book(request, BookID):
     
     return render(request, "book.html", {"Book":book})
 
+@login_required(login_url="login")
 def edit_book(request, BookID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-
     try:
         book = Book.objects.get(user=request.user, id=BookID)
     except Book.DoesNotExist:
@@ -296,10 +286,8 @@ def edit_book(request, BookID):
         "PUBLISHERS": PUBLISHERS,
     })
 
+@login_required(login_url="login")
 def author(request, AuthorID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     try:
         author  = Authors.objects.get(user=request.user, id=AuthorID)
     except Authors.DoesNotExist:
@@ -310,11 +298,9 @@ def author(request, AuthorID):
         "Author":author,
         "Books":books,
     })
-    
+
+@login_required(login_url="login") 
 def publisher(request, PublisherID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     try:
         publisher  = Publisher.objects.get(user=request.user, id=PublisherID)
     except Publisher.DoesNotExist:
@@ -326,10 +312,8 @@ def publisher(request, PublisherID):
         "Books":books,
     })
 
+@login_required(login_url="login")
 def list(request, ListID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     try:
         list  = List.objects.get(user=request.user ,id=ListID)
     except List.DoesNotExist:
@@ -339,10 +323,61 @@ def list(request, ListID):
         "List":list,
     })
 
-def delete_book(request, BookID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
+@login_required(login_url="login")
+def edit_list(request, ListID):
+
+    try:
+        list  = List.objects.get(user=request.user ,id=ListID)
+    except List.DoesNotExist:
+        return HttpResponse('List Id not found', 404)
     
+    if request.method == "POST":
+        list_name = request.POST.get('list_name')
+        if list_name:
+            list.name = list_name
+
+
+
+        books_ids = request.POST.get('books_ids')
+        if books_ids:
+            for book_id in books_ids.split(','):
+                try:
+                    book = Book.objects.get(id=book_id)
+                    list.books.add(book)
+                except Book.DoesNotExist:
+                    pass
+
+        return redirect(f"books/vault/list/{ListID}")
+
+    books = Book.objects.filter(user=request.user).order_by('-added_at')
+    return render(request, "edit-list.html", {
+        "List":list,
+        "Books":books
+    })
+
+@login_required(login_url="login")
+def add_book_to_list(request, BookID):
+    try:
+        book  = Book.objects.get(user=request.user ,id=BookID)
+    except Book.DoesNotExist:
+        return HttpResponse('Book Id not found', 404)
+    
+    if request.method == "POST":
+        list_id = request.POST.get('list_id')
+
+        list = List.objects.get(user=request.user ,id=list_id)
+        list.books.add(book)
+
+        return redirect(f"books/vault/list/{list_id}")
+
+    LISTS  = List.objects.filter(user=request.user)
+    return render(request, "add-book-to-list.html", {
+        "LISTS":LISTS,
+        "Book":book,
+    })
+
+@login_required(login_url="login")
+def delete_book(request, BookID):
     try:
         book = Book.objects.get(user=request.user, id=BookID)
     except Book.DoesNotExist:
@@ -351,10 +386,8 @@ def delete_book(request, BookID):
 
     return HttpResponseRedirect(reverse("index"))
 
+@login_required(login_url="login")
 def delete_author(request, AuthorID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     try:
         author  = Authors.objects.get(user=request.user, id=AuthorID)
     except Authors.DoesNotExist:
@@ -372,10 +405,8 @@ def delete_author(request, AuthorID):
 
     return HttpResponseRedirect(reverse("index"))
 
+@login_required(login_url="login")
 def delete_publisher(request, PublisherID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     try:
         publisher  = Publisher.objects.get(user=request.user, id=PublisherID)
     except Publisher.DoesNotExist:
@@ -384,10 +415,8 @@ def delete_publisher(request, PublisherID):
 
     return HttpResponseRedirect(reverse("index"))
 
+@login_required(login_url="login")
 def delete_list(request, ListID):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect(reverse("login"))
-    
     try:
         list  = List.objects.get(user=request.user ,id=ListID)
     except List.DoesNotExist:
