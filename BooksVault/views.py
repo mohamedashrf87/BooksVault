@@ -431,7 +431,7 @@ def login_view(request):
         username = request.POST["username"]
         password = request.POST["password"]
         
-        if not email:
+        if not username:
             return render(request, "login.html", {"usernameE": "This field can't be empty."})
 
         if not password:
